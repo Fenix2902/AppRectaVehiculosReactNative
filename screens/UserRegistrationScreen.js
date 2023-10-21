@@ -4,6 +4,8 @@ import { TextInput, Button, Avatar } from "react-native-paper";
 import { useState } from "react";
 
 export function UserRegistrationScreen({ navigation, route }) {
+  const [message, setMessage] = useState('');
+  const [messageColor, setMessageColor] = useState(true)
   const [showPass, setShowPass] = useState(false);
   const {
     control,
@@ -17,7 +19,12 @@ export function UserRegistrationScreen({ navigation, route }) {
       password: "",
     },
   });
-  const onSubmit = (data) => console.log(data);
+  // const onSubmit = (data) => console.log(data);
+  const onSubmit = (data)=>{
+    setMessage('Registro exitoso...')
+    console.log(data)
+    reset()
+  }
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Avatar.Image
@@ -118,7 +125,7 @@ export function UserRegistrationScreen({ navigation, route }) {
           rules={{
             required: true,
             maxLength: 13,
-            minLength: 10,
+            minLength: 6,
             pattern:
               /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{6,}/,
           }} //contraseña fuerte de 6 caracteres y letra mayuscula y minuscula y caracter especial
@@ -150,7 +157,7 @@ export function UserRegistrationScreen({ navigation, route }) {
         )}
         {errors.password?.type == "minLength" && (
           <Text style={{ color: "red" }}>
-            The minimum length is 10 characters.
+            The minimum length is 6 characters.
           </Text>
         )}
         {errors.password?.type == "pattern" && (
@@ -167,6 +174,7 @@ export function UserRegistrationScreen({ navigation, route }) {
         >
           Save
         </Button>
+        <Text style={{marginTop: 5,color: messageColor ? 'green' : 'red'}}>{message}</Text>
         {/* <Button title="Submit" onPress={handleSubmit(onSubmit)} /> */}
       </View>
     </View>
